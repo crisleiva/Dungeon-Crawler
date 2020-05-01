@@ -5,7 +5,8 @@ export class GameScene extends Phaser.Scene {
   map!: Phaser.Tilemaps.Tilemap;
   groundLayer!: Phaser.Tilemaps.StaticTilemapLayer;
   wallLayer!: Phaser.Tilemaps.StaticTilemapLayer;
-  knight!: Phaser.Physics.Arcade.Sprite;
+  knight!: Phaser.GameObjects.Sprite;
+  
 
   /* 
     knight_f_idle_anim 128 68 16 28 4
@@ -18,19 +19,28 @@ export class GameScene extends Phaser.Scene {
 
   */
 
+
   preload () : void {
     this.load.tilemapTiledJSON('starterFloor', '../dist/assets/maps/floor1.json');
     this.load.image('dungeonTileset', '../dist/assets/maps/tilesets/dungeonTileSet.png');
     this.load.spritesheet({
       key: 'knight',
-      url: '../dist/assets/maps/tilesets/dungeonTileSet.png',
+      url: '../dist/assets/sprites/Knight.png',
       frameConfig: {
-        frameWidth: 16,
-        frameHeight: 16,
-        startFrame: 128,
-        endFrame: 192
+        frameWidth: 24,
+        frameHeight: 32
       }
-    })
+    });
+
+    /**
+     * this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('link', { start: 1, end: 6 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+     */
   }
 
   create () : void {
@@ -40,32 +50,34 @@ export class GameScene extends Phaser.Scene {
     this.wallLayer = this.map.createStaticLayer('Walls', this.tileset);
     this.wallLayer.setCollisionByProperty({ collides: true });
     /**
-     * The two points below are for spawn and entrance to the next scene
+     * The two points below are for spawn and entrance coords
      */
-    const spawnPoint = this.map.findObject('SpawnPoint', (obj) => {
-      if (obj.name === "SpawnPoint") {
-        return obj.name
-      } else {
-        throw new Error('No spawn object found');
-      }
+    const spawnPoint = this.findObjCoords('SpawnPoint');
+    const entrancePoint = this.findObjCoords('Entrance');
+    this.knight = this.add.sprite(spawnPoint.x, spawnPoint.y, 'knight');
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNames('knight', {start: 2, end: 5}),
+      frameRate: 10,
+      repeat: -1
     })
-    
-    const entrancePoint = this.map.findObject('Entrance', (obj) => {
-     if (obj.name === "EntrancePoint") {
-       return obj.name
-     } else {
-       throw new Error('No entrance object found');
-     }
-    })
-    console.log(spawnPoint, entrancePoint)
-
-    
-
   }
 
   update () : void {
-
+    const keys = this.input.keyboard
+    keys.on('keydown-A', () => {
+      console.log('a')
+      this.knight.anims.play('left', true)
+    })
   }
 
-
+  private findObjCoords = (name: string): any => {
+    return this.map.findObject(name, (obj) => {
+      if (obj.name === name) {
+        return obj
+      } else {
+        throw new Error(`No ${name} object found!`)
+      }
+    })
+  }
 }
