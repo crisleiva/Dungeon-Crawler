@@ -1,0 +1,45 @@
+{
+	"textures": [
+		{
+			"image": "HyruleEnemies.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 439,
+				"h": 348
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Hyruleenemies.gif",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 437,
+						"h": 346
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 437,
+						"h": 346
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 437,
+						"h": 346
+					},
+					"anchor": {
+						"x": 0.26315789,
+						"y": 0.95086705
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:6ce3d28ba5b4723dcbfa11291cbb32a8:709ed68acdb5265f7accc54d1bf40e4a:59935a6d2ae901af0fda58a724f5f260$"
+	}
+}
